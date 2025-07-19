@@ -572,8 +572,9 @@ where
             rules.iter().zip(matches).try_for_each(|(rw, ms)| {
                 let total_matches: usize = ms.iter().map(|m| m.substs.len()).sum();
                 debug!("Applying {} {} times", rw.name, total_matches);
-
+                println!("begin applying {}", rw.name);
                 let actually_matched = self.scheduler.apply_rewrite(i, &mut self.egraph, rw, ms);
+                println!("end applying {}, matches: {}", rw.name, actually_matched);
                 if actually_matched > 0 {
                     if let Some(count) = applied.get_mut(&rw.name) {
                         *count += actually_matched;
@@ -760,6 +761,7 @@ where
         rewrite: &Rewrite<L, N>,
         matches: Vec<SearchMatches<L>>,
     ) -> usize {
+        println!("trait apply_rewrite: {}", rewrite.name);
         rewrite.apply(egraph, &matches).len()
     }
 }
