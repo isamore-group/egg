@@ -382,7 +382,10 @@ where
         subst: &Subst,
         searcher_ast: Option<&PatternAst<L>>,
         rule_name: Symbol,
-    ) -> Vec<Id>;
+    ) -> Vec<Id> {
+        println!("you have lost!!!");
+        vec![]
+    }
 
     /// Returns a list of variables that this Applier assumes are bound.
     ///
