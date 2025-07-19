@@ -95,7 +95,7 @@ impl<L: Language, N: Analysis<L>> Rewrite<L, N> {
     ///
     /// [`apply_matches`]: Applier::apply_matches()
     pub fn apply(&self, egraph: &mut EGraph<L, N>, matches: &[SearchMatches<L>]) -> Vec<Id> {
-        println!("trait apply_matches");
+        // println!("trait apply_matches");
         self.applier.apply_matches(egraph, matches, self.name)
     }
 
@@ -346,12 +346,7 @@ where
                 None
             };
             for subst in &mat.substs {
-                println!(
-                    "????Applying {} to {:?} with subst {:?}",
-                    rule_name, mat.eclass, subst
-                );
                 let ids = self.apply_one(egraph, mat.eclass, subst, ast, rule_name);
-                println!("????Added {:?}", ids);
                 added.extend(ids)
             }
         }
@@ -382,10 +377,7 @@ where
         subst: &Subst,
         searcher_ast: Option<&PatternAst<L>>,
         rule_name: Symbol,
-    ) -> Vec<Id> {
-        println!("you have lost!!!");
-        vec![]
-    }
+    ) -> Vec<Id>;
 
     /// Returns a list of variables that this Applier assumes are bound.
     ///
@@ -440,7 +432,6 @@ where
         searcher_ast: Option<&PatternAst<L>>,
         rule_name: Symbol,
     ) -> Vec<Id> {
-        println!("ConditionalApplier::apply_one");
         if self.condition.check(egraph, eclass, subst) {
             self.applier
                 .apply_one(egraph, eclass, subst, searcher_ast, rule_name)
