@@ -351,6 +351,7 @@ where
                     rule_name, mat.eclass, subst
                 );
                 let ids = self.apply_one(egraph, mat.eclass, subst, ast, rule_name);
+                println!("????Added {:?}", ids);
                 added.extend(ids)
             }
         }
