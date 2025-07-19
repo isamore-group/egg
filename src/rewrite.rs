@@ -338,6 +338,7 @@ where
         rule_name: Symbol,
     ) -> Vec<Id> {
         let mut added = vec![];
+
         for mat in matches {
             let ast = if egraph.are_explanations_enabled() {
                 mat.ast.as_ref().map(|cow| cow.as_ref())
@@ -345,6 +346,10 @@ where
                 None
             };
             for subst in &mat.substs {
+                println!(
+                    "Applying {} to {:?} with subst {:?}",
+                    rule_name, mat.eclass, subst
+                );
                 let ids = self.apply_one(egraph, mat.eclass, subst, ast, rule_name);
                 added.extend(ids)
             }
