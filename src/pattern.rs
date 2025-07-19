@@ -356,8 +356,10 @@ where
     ) -> Vec<Id> {
         let mut added = vec![];
         let mut id_buf = vec![0.into(); self.ast.len()];
+        println!("matches.len() = {}", matches.len());
         for mat in matches {
             let sast = mat.ast.as_ref().map(|cow| cow.as_ref());
+            println!("substs.len() = {}", mat.substs.len());
             for subst in &mat.substs {
                 let did_something;
                 let id;
