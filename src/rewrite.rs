@@ -347,7 +347,7 @@ where
             };
             for subst in &mat.substs {
                 println!(
-                    "Applying {} to {:?} with subst {:?}",
+                    "????Applying {} to {:?} with subst {:?}",
                     rule_name, mat.eclass, subst
                 );
                 let ids = self.apply_one(egraph, mat.eclass, subst, ast, rule_name);
