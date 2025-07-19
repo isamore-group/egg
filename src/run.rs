@@ -573,6 +573,7 @@ where
                 let total_matches: usize = ms.iter().map(|m| m.substs.len()).sum();
                 debug!("Applying {} {} times", rw.name, total_matches);
                 println!("begin applying {}", rw.name);
+                let scheduler = &mut self.scheduler;
                 let actually_matched = self.scheduler.apply_rewrite(i, &mut self.egraph, rw, ms);
                 println!("end applying {}, matches: {}", rw.name, actually_matched);
                 if actually_matched > 0 {
