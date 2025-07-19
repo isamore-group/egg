@@ -440,6 +440,7 @@ where
         searcher_ast: Option<&PatternAst<L>>,
         rule_name: Symbol,
     ) -> Vec<Id> {
+        println!("ConditionalApplier::apply_one");
         if self.condition.check(egraph, eclass, subst) {
             self.applier
                 .apply_one(egraph, eclass, subst, searcher_ast, rule_name)
