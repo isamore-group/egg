@@ -336,7 +336,28 @@ where
         egraph: &mut EGraph<L, N>,
         matches: &[SearchMatches<L>],
         rule_name: Symbol,
-    ) -> Vec<Id>;
+    ) -> Vec<Id> {
+        let mut added = vec![];
+
+        for mat in matches {
+            let ast = if egraph.are_explanations_enabled() {
+                mat.ast.as_ref().map(|cow| cow.as_ref())
+            } else {
+                None
+            };
+            for subst in &mat.substs {
+                println!(
+                    "????Applying {} to {:?} with subst {:?}",
+                    rule_name, mat.eclass, subst
+                );
+                let ids = self.apply_one(egraph, mat.eclass, subst, ast, rule_name);
+                println!("????Added {:?}", ids);
+                added.extend(ids)
+            }
+        }
+        added
+    }
+
     /// For patterns, get the ast directly as a reference.
     fn get_pattern_ast(&self) -> Option<&PatternAst<L>> {
         None
@@ -422,33 +443,6 @@ where
         } else {
             vec![]
         }
-    }
-
-        fn apply_matches(
-        &self,
-        egraph: &mut EGraph<L, N>,
-        matches: &[SearchMatches<L>],
-        rule_name: Symbol,
-    ) -> Vec<Id> {
-        let mut added = vec![];
-
-        for mat in matches {
-            let ast = if egraph.are_explanations_enabled() {
-                mat.ast.as_ref().map(|cow| cow.as_ref())
-            } else {
-                None
-            };
-            for subst in &mat.substs {
-                println!(
-                    "????Applying {} to {:?} with subst {:?}",
-                    rule_name, mat.eclass, subst
-                );
-                let ids = self.apply_one(egraph, mat.eclass, subst, ast, rule_name);
-                println!("????Added {:?}", ids);
-                added.extend(ids)
-            }
-        }
-        added
     }
 
     fn vars(&self) -> Vec<Var> {
@@ -617,32 +611,6 @@ mod tests {
         }
 
         impl Applier<SymbolLang, ()> for Appender {
-            fn apply_matches(
-                    &self,
-                    egraph: &mut crate::EGraph<SymbolLang, ()>,
-                    matches: &[SearchMatches<SymbolLang>],
-                    rule_name: Symbol,
-                ) -> Vec<Id> {
-                let mut added = vec![];
-
-        for mat in matches {
-            let ast = if egraph.are_explanations_enabled() {
-                mat.ast.as_ref().map(|cow| cow.as_ref())
-            } else {
-                None
-            };
-            for subst in &mat.substs {
-                println!(
-                    "????Applying {} to {:?} with subst {:?}",
-                    rule_name, mat.eclass, subst
-                );
-                let ids = self.apply_one(egraph, mat.eclass, subst, ast, rule_name);
-                println!("????Added {:?}", ids);
-                added.extend(ids)
-            }
-        }
-        added
-            }
             fn apply_one(
                 &self,
                 egraph: &mut EGraph,
