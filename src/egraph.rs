@@ -1333,7 +1333,6 @@ impl<L: Language, N: Analysis<L>> EGraph<L, N> {
 
         while !self.pending.is_empty() || !self.analysis_pending.is_empty() {
             while let Some(class) = self.pending.pop() {
-                println!("id: {}, nodes: {:?}", class, self.nodes[usize::from(class)]);
                 let mut node = self.nodes[usize::from(class)].clone();
                 node.update_children(|id| self.find_mut(id));
                 if let Some(memo_class) = self.memo.insert(node, class) {
@@ -1344,11 +1343,6 @@ impl<L: Language, N: Analysis<L>> EGraph<L, N> {
             }
 
             while let Some(class_id) = self.analysis_pending.pop() {
-                println!(
-                    "id: {}, nodes: {:?}",
-                    class_id,
-                    self.nodes[usize::from(class_id)]
-                );
                 let node = self.nodes[usize::from(class_id)].clone();
                 let class_id = self.find_mut(class_id);
                 let node_data = N::make(self, &node);
