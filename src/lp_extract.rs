@@ -111,11 +111,11 @@ where
             }
 
             for (i, (node, &node_active)) in egraph[id].iter().zip(&class.nodes).enumerate() {
-                // if cycles.contains(&(id, i)) {
-                //     model.set_col_upper(node_active, 0.0);
-                //     model.set_col_lower(node_active, 0.0);
-                //     continue;
-                // }
+                if cycles.contains(&(id, i)) {
+                    model.set_col_upper(node_active, 0.0);
+                    model.set_col_lower(node_active, 0.0);
+                    continue;
+                }
 
                 for child in node.children() {
                     let child_active = vars[child].active;
