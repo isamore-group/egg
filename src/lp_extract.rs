@@ -100,6 +100,8 @@ where
             cycles.insert((id, i));
         });
 
+        println!("Cycles: {:?}", cycles);
+
         for (&id, class) in &vars {
             // class active == some node active
             // sum(for node_active in class) == class_active
