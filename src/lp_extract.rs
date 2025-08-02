@@ -159,6 +159,8 @@ where
         self.solve_multiple(&[root]).0
     }
 
+
+
     /// Extract (potentially multiple) roots
     pub fn solve_multiple(&mut self, roots: &[Id]) -> (RecExpr<L>, Vec<Id>) {
         let egraph = self.egraph;
@@ -208,13 +210,7 @@ where
         (expr, root_idxs)
     }
 
-    pub fn cycles(&self) -> HashSet<(Id, usize)> {
-        let mut cycles = HashSet::new();
-        find_cycles(self.egraph, |id, i| {
-            cycles.insert((id, i));
-        });
-        cycles
-    }
+
 }
 
 fn find_cycles<L, N>(egraph: &EGraph<L, N>, mut f: impl FnMut(Id, usize))
