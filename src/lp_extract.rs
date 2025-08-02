@@ -100,8 +100,6 @@ where
             cycles.insert((id, i));
         });
 
-        println!("Cycles: {:?}", cycles);
-
         for (&id, class) in &vars {
             // class active == some node active
             // sum(for node_active in class) == class_active
@@ -208,6 +206,14 @@ where
 
         assert!(expr.is_dag(), "LpExtract found a cyclic term!: {:?}", expr);
         (expr, root_idxs)
+    }
+
+    pub fn cycles(&self) -> HashSet<(Id, usize)> {
+        let mut cycles = HashSet::new();
+        find_cycles(self.egraph, |id, i| {
+            cycles.insert((id, i));
+        });
+        cycles
     }
 }
 
