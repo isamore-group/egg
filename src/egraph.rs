@@ -1343,6 +1343,7 @@ impl<L: Language, N: Analysis<L>> EGraph<L, N> {
             }
 
             while let Some(class_id) = self.analysis_pending.pop() {
+                println!("id: {}", class_id);
                 let node = self.nodes[usize::from(class_id)].clone();
                 let class_id = self.find_mut(class_id);
                 let node_data = N::make(self, &node);
